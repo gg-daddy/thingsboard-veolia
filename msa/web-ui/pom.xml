@@ -255,33 +255,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.fortasoft</groupId>
-                <artifactId>gradle-maven-plugin</artifactId>
-                <configuration>
-                    <tasks>
-                        <task>build</task>
-                        <task>buildDeb</task>
-                        <task>buildRpm</task>
-                    </tasks>
-                    <args>
-                        <arg>-PprojectBuildDir=${project.build.directory}</arg>
-                        <arg>-PprojectVersion=${project.version}</arg>
-                        <arg>-PpkgName=${pkg.name}</arg>
-                        <arg>-PpkgUser=${pkg.user}</arg>
-                        <arg>-PpkgInstallFolder=${pkg.installFolder}</arg>
-                        <arg>-PpkgLogFolder=${pkg.unixLogFolder}</arg>
-                    </args>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>invoke</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.0.0</version>
