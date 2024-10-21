@@ -103,10 +103,10 @@
         <module>rule-engine</module>
         <module>dao</module>
         <module>transport</module>
-        <module>ui</module>
+        <!-- <module>ui</module> -->
         <module>tools</module>
         <module>application</module>
-        <module>msa</module>
+        <!-- <module>msa</module> -->
     </modules>
 
     <profiles>
