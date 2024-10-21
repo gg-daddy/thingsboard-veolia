@@ -40,9 +40,13 @@ import java.util.Map;
 @EnableWebSocket
 public class WebSocketConfiguration implements WebSocketConfigurer {
 
-    public static final String WS_PLUGIN_PREFIX = "/api/ws/plugins/";
+    public static final String  WS_PLUGIN_PREFIX = "/api/ws/plugins/";
     private static final String WS_PLUGIN_MAPPING = WS_PLUGIN_PREFIX + "**";
 
+    /***
+     * 创建容器
+     * @return
+     */
     @Bean
     public ServletServerContainerFactoryBean createWebSocketContainer() {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
@@ -51,11 +55,26 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
         return container;
     }
 
+    /***
+     * 注册websocket的监听器
+     * 判断必须要有token的
+     * @param registry
+     */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(wsHandler(), WS_PLUGIN_MAPPING).setAllowedOrigins("*")
                 .addInterceptors(new HttpSessionHandshakeInterceptor(), new HandshakeInterceptor() {
 
+                    /**
+                     * true : 返回
+                     * false:不返回
+                     * @param request
+                     * @param response
+                     * @param wsHandler
+                     * @param attributes
+                     * @return
+                     * @throws Exception
+                     */
                     @Override
                     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler,
                                                    Map<String, Object> attributes) throws Exception {
@@ -84,6 +103,11 @@ public class WebSocketConfiguration implements WebSocketConfigurer {
         return new TbWebSocketHandler();
     }
 
+    /**
+     * 判断是不是有权限访问
+     * @return
+     * @throws ThingsboardException
+     */
     protected SecurityUser getCurrentUser() throws ThingsboardException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof SecurityUser) {

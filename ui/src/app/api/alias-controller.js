@@ -15,7 +15,7 @@
  */
 export default class AliasController {
 
-    constructor($scope, $q, $filter, utils, types, entityService, stateController, entityAliases) {
+    constructor($scope, $q, $filter, utils, types, entityService, stateController, entity) {
         this.$scope = $scope;
         this.$q = $q;
         this.$filter = $filter;

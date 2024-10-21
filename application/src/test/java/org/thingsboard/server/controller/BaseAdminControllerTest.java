@@ -34,7 +34,7 @@ public abstract class BaseAdminControllerTest extends AbstractControllerTest {
         .andExpect(content().contentType(contentType))
         .andExpect(jsonPath("$.id", notNullValue()))
         .andExpect(jsonPath("$.key", is("general")))
-        .andExpect(jsonPath("$.jsonValue.baseUrl", is("http://localhost:8080")));
+        .andExpect(jsonPath("$.jsonValue.baseUrl", is("http://localhost:9005")));
         
         doGet("/api/admin/settings/mail")
         .andExpect(status().isOk())
@@ -66,7 +66,7 @@ public abstract class BaseAdminControllerTest extends AbstractControllerTest {
         .andExpect(content().contentType(contentType))
         .andExpect(jsonPath("$.jsonValue.baseUrl", is("http://myhost.org")));
         
-        ((ObjectNode) jsonValue).put("baseUrl", "http://localhost:8080");
+        ((ObjectNode) jsonValue).put("baseUrl", "http://localhost:9005");
         adminSettings.setJsonValue(jsonValue);
         
         doPost("/api/admin/settings", adminSettings)

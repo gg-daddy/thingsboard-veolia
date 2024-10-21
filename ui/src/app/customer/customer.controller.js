@@ -65,7 +65,7 @@ export default function CustomerController(customerService, $state, $stateParams
         },
         {
             onAction: function ($event, item) {
-                openCustomerDashboards($event, item);
+                openCustomer($event, item);
             },
             name: function() { return $translate.instant('dashboard.dashboards') },
             details: function(customer) {

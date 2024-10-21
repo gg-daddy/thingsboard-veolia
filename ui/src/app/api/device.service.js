@@ -143,6 +143,8 @@ function DeviceService($http, $q, $window, userService, attributeService, custom
             }
             ids += deviceIds[i];
         }
+
+
         var url = '/api/devices?deviceIds=' + ids;
         $http.get(url, config).then(function success(response) {
             var devices = response.data;
@@ -176,6 +178,8 @@ function DeviceService($http, $q, $window, userService, attributeService, custom
         var deferred = $q.defer();
         var url = '/api/device/' + deviceId;
         $http.delete(url).then(function success() {
+            // eslint-disable-next-line no-undef
+            alter("走到了这里");
             deferred.resolve();
         }, function fail() {
             deferred.reject();

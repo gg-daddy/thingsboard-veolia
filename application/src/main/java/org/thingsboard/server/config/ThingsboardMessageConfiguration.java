@@ -17,12 +17,9 @@ package org.thingsboard.server.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.ExtendedProperties;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.runtime.RuntimeConstants;
-import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -96,14 +93,14 @@ public class ThingsboardMessageConfiguration {
 
         public static final String SPRING_RESOURCE_LOADER_PATH = "spring.resource.loader.path";
 
-        private org.springframework.core.io.ResourceLoader resourceLoader;
+        private ResourceLoader resourceLoader;
 
         private String[] resourceLoaderPaths;
 
 
         @Override
         public void init(ExtendedProperties configuration) {
-            this.resourceLoader = (org.springframework.core.io.ResourceLoader)
+            this.resourceLoader = (ResourceLoader)
                     this.rsvc.getApplicationAttribute(SPRING_RESOURCE_LOADER);
             String resourceLoaderPath = (String) this.rsvc.getApplicationAttribute(SPRING_RESOURCE_LOADER_PATH);
             if (this.resourceLoader == null) {
@@ -133,7 +130,7 @@ public class ThingsboardMessageConfiguration {
                 log.debug("Looking for Velocity resource with name [" + source + "]");
             }
             for (String resourceLoaderPath : this.resourceLoaderPaths) {
-                org.springframework.core.io.Resource resource =
+                Resource resource =
                         this.resourceLoader.getResource(resourceLoaderPath + source);
                 try {
                     return resource.getInputStream();

@@ -17,11 +17,7 @@ package org.thingsboard.server.service.telemetry.sub;
 
 import org.thingsboard.server.common.data.kv.TsKvEntry;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class SubscriptionUpdate {
@@ -30,13 +26,24 @@ public class SubscriptionUpdate {
     private int errorCode;
     private String errorMsg;
     private Map<String, List<Object>> data;
+    private String type;
 
     public SubscriptionUpdate(int subscriptionId, List<TsKvEntry> data) {
         super();
         this.subscriptionId = subscriptionId;
         this.data = new TreeMap<>();
+
+
+        if(data.size() >=1){
+            this.type = data.get(0).getKey();
+        }
+
+
+
         if (data != null) {
+
             for (TsKvEntry tsEntry : data) {
+
                 List<Object> values = this.data.computeIfAbsent(tsEntry.getKey(), k -> new ArrayList<>());
                 Object[] value = new Object[2];
                 value[0] = tsEntry.getTs();
@@ -44,6 +51,7 @@ public class SubscriptionUpdate {
                 values.add(value);
             }
         }
+
     }
 
     public SubscriptionUpdate(int subscriptionId, Map<String, List<Object>> data) {
@@ -60,7 +68,16 @@ public class SubscriptionUpdate {
         super();
         this.subscriptionId = subscriptionId;
         this.errorCode = errorCode.getCode();
-        this.errorMsg = errorMsg != null ? errorMsg : errorCode.getDefaultMsg();
+        this.errorMsg = errorMsg != null ? this.type : errorCode.getDefaultMsg();
+    }
+
+
+    public SubscriptionUpdate(int subscriptionId, SubscriptionErrorCode errorCode, String errorMsg, String type) {
+        super();
+        this.subscriptionId = subscriptionId;
+        this.errorCode = errorCode.getCode();
+        this.errorMsg = errorMsg != null ? this.type : errorCode.getDefaultMsg();
+        this.type = type;
     }
 
     public int getSubscriptionId() {
@@ -89,6 +106,15 @@ public class SubscriptionUpdate {
 
     public String getErrorMsg() {
         return errorMsg;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

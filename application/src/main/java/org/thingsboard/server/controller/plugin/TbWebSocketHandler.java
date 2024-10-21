@@ -266,7 +266,7 @@ public class TbWebSocketHandler extends TextWebSocketHandler implements Telemetr
                         if (blacklistedSessions.putIfAbsent(externalId, sessionRef) == null) {
                             log.info("[{}][{}][{}] Failed to process session update. Max session updates limit reached"
                                     , sessionRef.getSecurityCtx().getTenantId(), sessionRef.getSecurityCtx().getId(), externalId);
-                            sessionMd.sendMsg("{\"subscriptionId\":" + subscriptionId + ", \"errorCode\":" + ThingsboardErrorCode.TOO_MANY_UPDATES.getErrorCode() + ", \"errorMsg\":\"Too many updates!\"}");
+//                            sessionMd.sendMsg("{\"subscriptionId\":" + subscriptionId + ", \"errorCode\":" + ThingsboardErrorCode.TOO_MANY_UPDATES.getErrorCode() + ", \"errorMsg\":\"数据刷新太频繁!\"}");
                         }
                         return;
                     } else {

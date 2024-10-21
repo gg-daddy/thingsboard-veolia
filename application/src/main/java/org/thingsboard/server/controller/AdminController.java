@@ -17,23 +17,18 @@ package org.thingsboard.server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.thingsboard.rule.engine.api.MailService;
 import org.thingsboard.server.common.data.AdminSettings;
+import org.thingsboard.server.common.data.UpdateMessage;
 import org.thingsboard.server.common.data.exception.ThingsboardException;
 import org.thingsboard.server.common.data.id.TenantId;
-import org.thingsboard.server.dao.settings.AdminSettingsService;
 import org.thingsboard.server.common.data.security.model.SecuritySettings;
+import org.thingsboard.server.dao.settings.AdminSettingsService;
 import org.thingsboard.server.service.security.permission.Operation;
 import org.thingsboard.server.service.security.permission.Resource;
 import org.thingsboard.server.service.security.system.SystemSecurityService;
 import org.thingsboard.server.service.update.UpdateService;
-import org.thingsboard.server.common.data.UpdateMessage;
 
 @RestController
 @RequestMapping("/api/admin")

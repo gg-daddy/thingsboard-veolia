@@ -133,8 +133,12 @@
         "min-polling-interval-message": "轮询间隔至少是1秒。",
         "aknowledge-alarms-title": "应答 { count, plural, 1 {1 警告} other {# 警告} }",
         "aknowledge-alarms-text": "确定要应答 { count, plural, 1 {1 警告} other {# 警告} }?",
+        "aknowledge-alarm-title": "警报应答",
+        "aknowledge-alarm-text": "确定要应答警报？",
         "clear-alarms-title": "清除 { count, plural, 1 {1 警告} other {# 警告} }",
-        "clear-alarms-text": "确定要清除 { count, plural, 1 {1 警告} other {# 警告} }?"
+        "clear-alarms-text": "确定要清除 { count, plural, 1 {1 警告} other {# 警告} }?",
+        "clear-alarm-title": "警报清除",
+        "clear-alarm-text": "确定要清除警报?"
     },
     "alias": {
         "add": "添加别名",
@@ -1316,11 +1320,11 @@
         "seconds": "{ seconds, plural, 0 { 秒 } 1 {1 秒 } other {# 秒 } }",
         "realtime": "实时",
         "history": "历史",
-        "last-prefix": "最后",
+        "last-prefix": "近",
         "period": "从 {{ startTime }} 到 {{ endTime }}",
         "edit": "编辑时间窗口",
         "date-range": "日期范围",
-        "last": "最后",
+        "last": "近",
         "time-period": "时间段"
     },
     "user": {

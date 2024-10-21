@@ -25,9 +25,9 @@ import org.thingsboard.server.dao.util.SqlTsDao;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("org.thingsboard.server.dao.sqlts.ts")
-@EnableJpaRepositories("org.thingsboard.server.dao.sqlts.ts")
-@EntityScan("org.thingsboard.server.dao.model.sqlts.ts")
+@ComponentScan("org.thingsboard.server")
+@EnableJpaRepositories("org.thingsboard")
+@EntityScan("org.thingsboard.server")
 @EnableTransactionManagement
 @SqlTsDao
 public class SqlTsDaoConfig {

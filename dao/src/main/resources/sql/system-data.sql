@@ -28,7 +28,7 @@ VALUES ( '1e7461261441950a91992ebcb67fe33', '1e746125a797660a91992ebcb67fe33', t
 /** System settings **/
 INSERT INTO admin_settings ( id, key, json_value )
 VALUES ( '1e746126a2266e4a91992ebcb67fe33', 'general', '{
-	"baseUrl": "http://localhost:8080"
+	"baseUrl": "http://localhost:9005"
 }' );
 
 INSERT INTO admin_settings ( id, key, json_value )

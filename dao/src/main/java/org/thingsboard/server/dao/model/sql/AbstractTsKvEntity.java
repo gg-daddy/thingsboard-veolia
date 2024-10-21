@@ -16,22 +16,13 @@
 package org.thingsboard.server.dao.model.sql;
 
 import lombok.Data;
-import org.thingsboard.server.common.data.kv.BooleanDataEntry;
-import org.thingsboard.server.common.data.kv.DoubleDataEntry;
-import org.thingsboard.server.common.data.kv.KvEntry;
-import org.thingsboard.server.common.data.kv.LongDataEntry;
-import org.thingsboard.server.common.data.kv.StringDataEntry;
+import org.thingsboard.server.common.data.kv.*;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
-import static org.thingsboard.server.dao.model.ModelConstants.BOOLEAN_VALUE_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.DOUBLE_VALUE_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.ENTITY_ID_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.KEY_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.LONG_VALUE_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.STRING_VALUE_COLUMN;
+import static org.thingsboard.server.dao.model.ModelConstants.*;
 
 @Data
 @MappedSuperclass

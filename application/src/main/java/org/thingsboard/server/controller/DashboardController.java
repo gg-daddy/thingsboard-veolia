@@ -15,23 +15,11 @@
  */
 package org.thingsboard.server.controller;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.thingsboard.server.common.data.Customer;
-import org.thingsboard.server.common.data.Dashboard;
-import org.thingsboard.server.common.data.DashboardInfo;
-import org.thingsboard.server.common.data.EntityType;
-import org.thingsboard.server.common.data.ShortCustomerInfo;
+import org.springframework.web.bind.annotation.*;
+import org.thingsboard.server.common.data.*;
 import org.thingsboard.server.common.data.audit.ActionType;
 import org.thingsboard.server.common.data.exception.ThingsboardException;
 import org.thingsboard.server.common.data.id.CustomerId;
@@ -52,6 +40,7 @@ import java.util.Set;
 public class DashboardController extends BaseController {
 
     public static final String DASHBOARD_ID = "dashboardId";
+
 
     @Value("${dashboard.max_datapoints_limit}")
     private long maxDatapointsLimit;
@@ -153,7 +142,7 @@ public class DashboardController extends BaseController {
     @RequestMapping(value = "/customer/{customerId}/dashboard/{dashboardId}", method = RequestMethod.POST)
     @ResponseBody 
     public Dashboard assignDashboardToCustomer(@PathVariable("customerId") String strCustomerId,
-                                         @PathVariable(DASHBOARD_ID) String strDashboardId) throws ThingsboardException {
+                                               @PathVariable(DASHBOARD_ID) String strDashboardId) throws ThingsboardException {
         checkParameter("customerId", strCustomerId);
         checkParameter(DASHBOARD_ID, strDashboardId);
         try {

@@ -26,10 +26,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.io.Serializable;
 
-import static org.thingsboard.server.dao.model.ModelConstants.ATTRIBUTE_KEY_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.ATTRIBUTE_TYPE_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.ENTITY_ID_COLUMN;
-import static org.thingsboard.server.dao.model.ModelConstants.ENTITY_TYPE_COLUMN;
+import static org.thingsboard.server.dao.model.ModelConstants.*;
 
 @Data
 @AllArgsConstructor

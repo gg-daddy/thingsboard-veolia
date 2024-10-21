@@ -233,7 +233,7 @@ spec:
         imagePullPolicy: Always
         image: thingsboard/tb-node:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 9005
           name: http
         - containerPort: 9001
           name: rpc
@@ -290,7 +290,7 @@ spec:
   selector:
     app: tb-node
   ports:
-  - port: 8080
+  - port: 9005
     name: http
 ---
 apiVersion: extensions/v1beta1
@@ -397,7 +397,7 @@ spec:
         imagePullPolicy: Always
         image: thingsboard/tb-http-transport:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 9005
           name: http
         env:
         - name: CLUSTER_NODE_ID
@@ -411,7 +411,7 @@ spec:
         - name: HTTP_BIND_ADDRESS
           value: "0.0.0.0"
         - name: HTTP_BIND_PORT
-          value: "8080"
+          value: "9005"
         - name: HTTP_REQUEST_TIMEOUT
           value: "60000"
         - name: TB_KAFKA_SERVERS
@@ -422,11 +422,11 @@ spec:
         readinessProbe:
           periodSeconds: 20
           tcpSocket:
-            port: 8080
+            port: 9005
         livenessProbe:
           periodSeconds: 20
           tcpSocket:
-            port: 8080
+            port: 9005
       restartPolicy: Always
 ---
 apiVersion: v1
@@ -439,7 +439,7 @@ spec:
   selector:
     app: tb-http-transport
   ports:
-  - port: 8080
+  - port: 9005
     name: http
 ---
 apiVersion: extensions/v1beta1
@@ -530,13 +530,13 @@ spec:
         imagePullPolicy: Always
         image: thingsboard/tb-web-ui:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 9005
           name: http
         env:
         - name: HTTP_BIND_ADDRESS
           value: "0.0.0.0"
         - name: HTTP_BIND_PORT
-          value: "8080"
+          value: "9005"
         - name: TB_ENABLE_PROXY
           value: "false"
         - name: LOGGER_LEVEL
@@ -565,7 +565,7 @@ spec:
   selector:
     app: tb-web-ui
   ports:
-  - port: 8080
+  - port: 9005
     name: http
 ---
 apiVersion: extensions/v1beta1
@@ -584,25 +584,25 @@ spec:
       - path: /api/v1/.*
         backend:
           serviceName: tb-http-transport
-          servicePort: 8080
+          servicePort: 9005
       - path: /static/rulenode/.*
         backend:
           serviceName: tb-node
-          servicePort: 8080
+          servicePort: 9005
       - path: /static/.*
         backend:
           serviceName: tb-web-ui
-          servicePort: 8080
+          servicePort: 9005
       - path: /index.html.*
         backend:
           serviceName: tb-web-ui
-          servicePort: 8080
+          servicePort: 9005
       - path: /
         backend:
           serviceName: tb-web-ui
-          servicePort: 8080
+          servicePort: 9005
       - path: /.*
         backend:
           serviceName: tb-node
-          servicePort: 8080
+          servicePort: 9005
 ---

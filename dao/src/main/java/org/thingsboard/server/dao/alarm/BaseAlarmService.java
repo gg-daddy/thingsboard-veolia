@@ -271,7 +271,9 @@ public class BaseAlarmService extends AbstractEntityService implements AlarmServ
 
     @Override
     public ListenableFuture<TimePageData<AlarmInfo>> findAlarms(TenantId tenantId, AlarmQuery query) {
+
         ListenableFuture<List<AlarmInfo>> alarms = alarmDao.findAlarms(tenantId, query);
+
         if (query.getFetchOriginator() != null && query.getFetchOriginator().booleanValue()) {
             alarms = Futures.transformAsync(alarms, input -> {
                 List<ListenableFuture<AlarmInfo>> alarmFutures = new ArrayList<>(input.size());

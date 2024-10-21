@@ -17,7 +17,8 @@ package org.thingsboard.server.service.telemetry.sub;
 
 public enum SubscriptionErrorCode {
 
-    NO_ERROR(0), INTERNAL_ERROR(1, "Internal Server error!"), BAD_REQUEST(2, "Bad request"), UNAUTHORIZED(3, "Unauthorized");
+    NO_ERROR(0), INTERNAL_ERROR(1, "Internal Server error!"), BAD_REQUEST(2, "Bad request"),
+    UNAUTHORIZED(3, "Unauthorized"),TIMEOUT(4,"超时");
 
     private final int code;
     private final String defaultMsg;

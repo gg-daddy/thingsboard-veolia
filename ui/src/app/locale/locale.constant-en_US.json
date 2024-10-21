@@ -1,4 +1,4 @@
-{
+ {
     "access": {
         "unauthorized": "Unauthorized",
         "unauthorized-access": "Unauthorized Access",
@@ -156,8 +156,8 @@
         "min-polling-interval-message": "At least 1 sec polling interval is allowed.",
         "aknowledge-alarms-title": "Acknowledge { count, plural, 1 {1 alarm} other {# alarms} }",
         "aknowledge-alarms-text": "Are you sure you want to acknowledge { count, plural, 1 {1 alarm} other {# alarms} }?",
-        "aknowledge-alarm-title": "Acknowledge Alarm",
-        "aknowledge-alarm-text": "Are you sure you want to acknowledge Alarm?",
+        "aknowledge-alarm-title": "警报确认",
+        "aknowledge-alarm-text": "确认应答警报？",
         "clear-alarms-title": "Clear { count, plural, 1 {1 alarm} other {# alarms} }",
         "clear-alarms-text": "Are you sure you want to clear { count, plural, 1 {1 alarm} other {# alarms} }?",
         "clear-alarm-title": "Clear Alarm",

@@ -28,7 +28,7 @@ VALUES ( now ( ), minTimeuuid ( '2016-11-01 01:01:01+0000' ), true,
 /** System settings **/
 INSERT INTO thingsboard.admin_settings ( id, key, json_value )
 VALUES ( now ( ), 'general', '{
-	"baseUrl": "http://localhost:8080"
+	"baseUrl": "http://localhost:9005"
 }' );
 
 INSERT INTO thingsboard.admin_settings ( id, key, json_value )

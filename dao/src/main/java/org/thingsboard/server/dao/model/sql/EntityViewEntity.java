@@ -35,11 +35,7 @@ import org.thingsboard.server.dao.model.ModelConstants;
 import org.thingsboard.server.dao.model.SearchTextEntity;
 import org.thingsboard.server.dao.util.mapping.JsonStringType;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.IOException;
 
 import static org.thingsboard.server.dao.model.ModelConstants.ENTITY_TYPE_PROPERTY;

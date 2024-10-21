@@ -47,6 +47,7 @@
         <guava.version>21.0</guava.version>
         <caffeine.version>2.6.1</caffeine.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+
         <commons-validator.version>1.6</commons-validator.version>
         <commons-io.version>2.5</commons-io.version>
         <commons-csv.version>1.4</commons-csv.version>
@@ -185,6 +186,7 @@
                     <artifactId>maven-install-plugin</artifactId>
                     <version>3.0.0-M1</version>
                 </plugin>
+                <!--这个一个插件是把数据装换成什么的-->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
@@ -603,6 +605,8 @@
                 <artifactId>netty-codec-mqtt</artifactId>
                 <version>${netty.version}</version>
             </dependency>
+
+
             <dependency>
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
@@ -618,6 +622,9 @@
                 <artifactId>cassandra-driver-extras</artifactId>
                 <version>${cassandra.version}</version>
             </dependency>
+
+
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -902,8 +909,14 @@
 
     <repositories>
         <repository>
+            <id>nexus-aliyun</id>
+            <name>Nexus aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+
+        <repository>
             <id>central</id>
-            <url>http://repo1.maven.org/maven2/</url>
+            <url>https://repo1.maven.org/maven2/</url>
         </repository>
         <repository>
             <id>spring-snapshots</id>
@@ -924,12 +937,11 @@
         <repository>
             <id>typesafe</id>
             <name>Typesafe Repository</name>
-            <url>http://repo.typesafe.com/typesafe/releases/</url>
+            <url>https://repo.typesafe.com/typesafe/releases/</url>
         </repository>
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public</url>
         </repository>
     </repositories>
-
 </project>

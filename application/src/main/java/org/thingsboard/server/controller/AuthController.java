@@ -1,12 +1,12 @@
 /**
  * Copyright © 2016-2020 The Thingsboard Authors
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,45 +15,55 @@
  */
 package org.thingsboard.server.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.thingsboard.rule.engine.api.MailService;
+import org.thingsboard.server.Request.NumberRequest;
+import org.thingsboard.server.Request.OpneRequest;
+import org.thingsboard.server.Request.WebUserRequest;
+import org.thingsboard.server.Response.AdminResponse;
+import org.thingsboard.server.Response.QueryPaginationResult;
+import org.thingsboard.server.Response.Result;
+import org.thingsboard.server.Response.UserBean;
+import org.thingsboard.server.cassandra.TsKvServer;
 import org.thingsboard.server.common.data.User;
 import org.thingsboard.server.common.data.audit.ActionType;
 import org.thingsboard.server.common.data.exception.ThingsboardErrorCode;
 import org.thingsboard.server.common.data.exception.ThingsboardException;
 import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.security.UserCredentials;
+import org.thingsboard.server.common.data.security.model.SecuritySettings;
+import org.thingsboard.server.common.data.security.model.UserPasswordPolicy;
 import org.thingsboard.server.dao.audit.AuditLogService;
+import org.thingsboard.server.service.adminMamner.AdminWEbServer;
 import org.thingsboard.server.service.security.auth.jwt.RefreshTokenRepository;
 import org.thingsboard.server.service.security.auth.rest.RestAuthenticationDetails;
-import org.thingsboard.server.common.data.security.model.SecuritySettings;
 import org.thingsboard.server.service.security.model.SecurityUser;
-import org.thingsboard.server.common.data.security.model.UserPasswordPolicy;
 import org.thingsboard.server.service.security.model.UserPrincipal;
 import org.thingsboard.server.service.security.model.token.JwtToken;
 import org.thingsboard.server.service.security.model.token.JwtTokenFactory;
 import org.thingsboard.server.service.security.system.SystemSecurityService;
+import org.thingsboard.server.service.tenantPerssion.TenantPerssionServer;
+import org.thingsboard.server.utils.NumberUtils;
 import ua_parser.Client;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -78,9 +88,13 @@ public class AuthController extends BaseController {
     @Autowired
     private AuditLogService auditLogService;
 
+    @Autowired
+    private TenantPerssionServer tenantPerssionServer;
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/auth/user", method = RequestMethod.GET)
-    public @ResponseBody User getUser() throws ThingsboardException {
+    public @ResponseBody
+    User getUser() throws ThingsboardException {
         try {
             SecurityUser securityUser = getCurrentUser();
             return userService.findUserById(securityUser.getTenantId(), securityUser.getId());
@@ -99,7 +113,7 @@ public class AuthController extends BaseController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/auth/changePassword", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void changePassword (
+    public void changePassword(
             @RequestBody JsonNode changePasswordRequest) throws ThingsboardException {
         try {
             String currentPassword = changePasswordRequest.get("currentPassword").asText();
@@ -131,8 +145,8 @@ public class AuthController extends BaseController {
             throw handleException(e);
         }
     }
-    
-    @RequestMapping(value = "/noauth/activate", params = { "activateToken" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = "/noauth/activate", params = {"activateToken"}, method = RequestMethod.GET)
     public ResponseEntity<String> checkActivateToken(
             @RequestParam(value = "activateToken") String activateToken) {
         HttpHeaders headers = new HttpHeaders();
@@ -153,10 +167,10 @@ public class AuthController extends BaseController {
         }
         return new ResponseEntity<>(headers, responseStatus);
     }
-    
+
     @RequestMapping(value = "/noauth/resetPasswordByEmail", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
-    public void requestResetPasswordByEmail (
+    public void requestResetPasswordByEmail(
             @RequestBody JsonNode resetPasswordByEmailRequest,
             HttpServletRequest request) throws ThingsboardException {
         try {
@@ -165,14 +179,14 @@ public class AuthController extends BaseController {
             String baseUrl = constructBaseUrl(request);
             String resetUrl = String.format("%s/api/noauth/resetPassword?resetToken=%s", baseUrl,
                     userCredentials.getResetToken());
-            
+
             mailService.sendResetPasswordEmail(resetUrl, email);
         } catch (Exception e) {
             throw handleException(e);
         }
     }
-    
-    @RequestMapping(value = "/noauth/resetPassword", params = { "resetToken" }, method = RequestMethod.GET)
+
+    @RequestMapping(value = "/noauth/resetPassword", params = {"resetToken"}, method = RequestMethod.GET)
     public ResponseEntity<String> checkResetToken(
             @RequestParam(value = "resetToken") String resetToken) {
         HttpHeaders headers = new HttpHeaders();
@@ -193,7 +207,7 @@ public class AuthController extends BaseController {
         }
         return new ResponseEntity<>(headers, responseStatus);
     }
-    
+
     @RequestMapping(value = "/noauth/activate", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
@@ -231,7 +245,7 @@ public class AuthController extends BaseController {
             throw handleException(e);
         }
     }
-    
+
     @RequestMapping(value = "/noauth/resetPassword", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.OK)
     @ResponseBody
@@ -277,6 +291,9 @@ public class AuthController extends BaseController {
 
     private void logLogoutAction(HttpServletRequest request) throws ThingsboardException {
         try {
+
+
+
             SecurityUser user = getCurrentUser();
             RestAuthenticationDetails details = new RestAuthenticationDetails(request);
             String clientAddress = details.getClientAddress();
@@ -325,4 +342,120 @@ public class AuthController extends BaseController {
         }
     }
 
-}
+    /***
+     *  获取openId和session_key
+     * @param opneRequest
+     * @return
+     */
+    @RequestMapping(value = "/noauth/getOpenId", method = RequestMethod.POST)
+    public QueryPaginationResult getOpenId(@RequestBody OpneRequest opneRequest) {
+
+        String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx4cb1237cfd58b039" +
+                "&secret=c921d6e7d7ec73af248da3f17b0ad287" + "&js_code=" + opneRequest.getCode() + "&grant_type=authorization_code";
+
+        RestTemplate restTemplate = new RestTemplate();
+//        //进行网络请求,访问url接口
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
+        QueryPaginationResult queryPaginationResult = new QueryPaginationResult();
+        queryPaginationResult.setFlag(true);
+        queryPaginationResult.setObject(responseEntity.getBody());
+
+//        JSONObject.parse()
+        return queryPaginationResult;
+    }
+
+    /***
+     * 获取电话号码判断是不是
+     * @return
+     */
+    @RequestMapping(value = "/noauth/getNumber", method = RequestMethod.POST)
+    public QueryPaginationResult getNumber(@RequestBody NumberRequest numberRequest) {
+        JSONObject phoneNumber = NumberUtils.getPhoneNumber(numberRequest.getEncryptedData(), numberRequest.getSessionKey(), numberRequest.getIv());
+        return tenantPerssionServer.getPerssion(String.valueOf(phoneNumber.get("phoneNumber")));
+    }
+
+
+    /***
+     * 管理员切换用户
+     * @param map
+     * @return
+     */
+    @PreAuthorize("hasAnyAuthority('SYS_ADMIN', 'TENANT_ADMIN', 'CUSTOMER_USER')")
+    @PostMapping(value = "/changeUser")
+    public Result changeUser(@RequestBody Map<String, Object> map) {
+        if (map.get("tenantId") != null) {
+            UserBean userBean = tenantPerssionServer.getUserBeanForChangeUser(map.get("tenantId").toString(),
+                    map.get("projectName")==null ? "":map.get("projectName").toString(),false);
+            return new Result(200, userBean);
+        } else {
+            return new Result(500, null);
+        }
+    }
+
+    /**
+     * 获取二维码的
+     *
+     * @return
+     */
+    @RequestMapping(value = "/noauth/brCwEU2B2m.txt", method = RequestMethod.GET)
+    public String getStr() {
+        return "bea8fa81ffd19093f9c35653c6249f0e";
+    }
+
+
+    @Autowired
+    private TsKvServer tsKvServer;
+    /***
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/noauth/test", method = RequestMethod.GET)
+    public List<Map<String,String>> getList(String id){
+        return tsKvServer.getList(id);
+    }
+
+
+    @Autowired
+    private AdminWEbServer adminWEbServer;
+
+    /***
+     * web端的管理员登录
+     * @param
+     * @return
+     */
+    @PostMapping(value = "/noauth/adminLogin")
+    public QueryPaginationResult adminLogin(@RequestBody Map<String,String> map){
+        return adminWEbServer.webAdminLogin(map);
+    }
+
+    /***
+     *  web端
+     * @return
+     */
+    @GetMapping("/noauth/init")
+    public String init(){
+        return adminWEbServer.init();
+    }
+
+
+
+    @PostMapping("/noauth/webChangeUser")
+    public QueryPaginationResult webChangeUser(@RequestBody WebUserRequest userRequest){
+        return adminWEbServer.webChangeUser(userRequest);
+    }
+
+
+    /***
+     * 初始查询数据
+     * @return
+     */
+    @GetMapping("/noauth/initFindAll")
+    public AdminResponse initFindAll(){
+        return adminWEbServer.initFindAll();
+    }
+
+
+
+
+ }

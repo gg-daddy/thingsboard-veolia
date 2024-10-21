@@ -115,6 +115,7 @@ public class CassandraAlarmDao extends CassandraAbstractModelDao<AlarmEntity, Al
         } else {
             searchStatusName = query.getStatus().name();
         }
+
         String relationType = BaseAlarmService.ALARM_RELATION_PREFIX + searchStatusName;
         ListenableFuture<List<EntityRelation>> relations = relationDao.findRelations(tenantId, affectedEntity, relationType, RelationTypeGroup.ALARM, EntityType.ALARM, query.getPageLink());
         return Futures.transformAsync(relations, input -> {

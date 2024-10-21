@@ -94,7 +94,7 @@ public class DefaultSystemDataLoaderService implements SystemDataLoaderService {
         AdminSettings generalSettings = new AdminSettings();
         generalSettings.setKey("general");
         ObjectNode node = objectMapper.createObjectNode();
-        node.put("baseUrl", "http://localhost:8080");
+        node.put("baseUrl", "http://localhost:9005");
         generalSettings.setJsonValue(node);
         adminSettingsService.saveAdminSettings(TenantId.SYS_TENANT_ID, generalSettings);
 

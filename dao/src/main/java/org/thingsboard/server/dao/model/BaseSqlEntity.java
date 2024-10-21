@@ -42,6 +42,10 @@ public abstract class BaseSqlEntity<D> implements BaseEntity<D> {
         return UUIDConverter.fromString(id);
     }
 
+    public String getStrId(){
+        return id;
+    }
+
     public void setId(UUID id) {
         this.id = UUIDConverter.fromTimeUUID(id);
     }
