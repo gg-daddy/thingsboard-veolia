@@ -43,8 +43,5 @@ application/target/thingsboard.rpm
 msa/
 rule-engine/rule-engine-components/
 transport/
-
-
-
-
+.vscode/**
 
