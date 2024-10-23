@@ -558,7 +558,7 @@ transport:
     # Enable/disable mqtt transport protocol.
     enabled: "${MQTT_ENABLED:true}"
     bind_address: "${MQTT_BIND_ADDRESS:0.0.0.0}"
-    bind_port: "${MQTT_BIND_PORT:1884}"
+    bind_port: "${MQTT_BIND_PORT:1883}"
     timeout: "${MQTT_TIMEOUT:10000}"
     netty:
       leak_detector_level: "${NETTY_LEAK_DETECTOR_LVL:DISABLED}"
