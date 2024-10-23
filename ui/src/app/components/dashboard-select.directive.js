@@ -20,7 +20,7 @@ import thingsboardApiUser from '../api/user.service';
 
 /* eslint-disable import/no-unresolved, import/default */
 
-import electTemplate from './dashboard-select.tpl.html';
+import dashboardSelectTemplate from './dashboard-select.tpl.html';
 import dashboardSelectPanelTemplate from './dashboard-select-panel.tpl.html';
 
 /* eslint-enable import/no-unresolved, import/default */

@@ -22,7 +22,7 @@ export default class AliasController {
         this.utils = utils;
         this.types = types;
         this.entityService = entityService;
-        this.stateController = app.jsstateController;
+        this.stateController = stateController;
         this.entityAliases = angular.copy(entity.entityAliases);
         this.resolvedAliases = {};
         this.resolvedAliasesPromise = {};
