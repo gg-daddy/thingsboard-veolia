@@ -88,7 +88,7 @@ import thingsboardToast from './services/toast';
 import thingsboardClipboard from './services/clipboard.service';
 import thingsboardHome from './layout';
 import thingsboardApiLogin from './api/login.service';
-import thingsboardApiDevice from './.service';
+import thingsboardApiDevice from './device.service';
 import thingsboardApiEntityView from './api/entity-view.service';
 import thingsboardApiUser from './api/user.service';
 import thingsboardApiEntityRelation from './api/entity-relation.service';

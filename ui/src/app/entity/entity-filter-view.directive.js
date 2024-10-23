@@ -22,7 +22,7 @@ import entityFilterViewTemplate from './entity-filter-view.tpl.html';
 import './entity-filter-view.scss';
 
 /*@ngInject*/
- default function EntityFilterViewDirective($compile, $templateCache, $q, $document, $mdDialog, $translate, types/*, entityService*/) {
+export default function EntityFilterViewDirective($compile, $templateCache, $q, $document, $mdDialog, $translate, types/*, entityService*/) {
 
     var linker = function (scope, element, attrs, ngModelCtrl) {
 

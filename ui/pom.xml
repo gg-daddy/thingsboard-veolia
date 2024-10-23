@@ -97,7 +97,7 @@
                                     <goal>npm</goal>
                                 </goals>
                                 <configuration>
-                                    <arguments>run build</arguments>
+                                    <arguments>build --force</arguments>
                                 </configuration>
                             </execution>
                         </executions>
