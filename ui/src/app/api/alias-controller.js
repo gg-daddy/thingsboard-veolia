@@ -22,8 +22,8 @@ export default class AliasController {
         this.utils = utils;
         this.types = types;
         this.entityService = entityService;
-        this.stateController = stateController;
-        this.entityAliases = angular.copy(entityAliases);
+        this.stateController = app.jsstateController;
+        this.entityAliases = angular.copy(entity.entityAliases);
         this.resolvedAliases = {};
         this.resolvedAliasesPromise = {};
         this.resolvedAliasesToStateEntities = {};
