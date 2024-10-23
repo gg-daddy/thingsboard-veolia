@@ -19,11 +19,11 @@ server:
   # Server bind address
   address: "${HTTP_BIND_ADDRESS:0.0.0.0}"
   # Server bind port
-  port: "${HTTP_BIND_PORT:44}"
+  port: "${HTTP_BIND_PORT:8844}"
   # Server SSL configuration
   ssl:
     # Enable/disable SSL support
-    enabled: "${SSL_ENABLED:true}"
+    enabled: "${SSL_ENABLED:false}"
     # Path to the key store that holds the SSL certificate
     key-store: "${SSL_KEY_STORE:/root/thingsboard/picture/tomcat9/cert/6600769_www.v-energy.cn.pfx}"
     # Password used to access the key store
